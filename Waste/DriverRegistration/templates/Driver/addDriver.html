@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <form method ='POST'  action="{% if driver %} {% url 'driver.update' driver.id %} {% else %} {% url 'driver.store'%} {% endif %}" class="" enctype="multipart/form-data" style="border:1px solid #ccc">
+      {% csrf_token %} 
+        <div class="container">
+         
+          <p>Please fill in this form to create an account.</p>
+          <hr>
+      
+          <label for="vehicle_no"><b>vehicle_no</b></label>
+          <input type="text" placeholder="vehicle_no" name="vehicle_no" required>
+      
+          <label for="vehicle_type"><b>vehicle_type</b></label>
+          <input type="text" placeholder="vehicle_type" name="vehicle_type" required>
+      
+          <label for="driver_name"><b>driver_name</b></label>
+          <input type="text" placeholder="driver_name" name="driver_name" required>
+
+          <label for="driver_license_no"><b>driver_license_no</b></label>
+          <input type="text" placeholder="driver_license_no" name="driver_license_no" required>
+
+
+          <label for="form-control">Upload  Driver Photo</label>
+          <input type="file" class="image-input" id="photo" name="driver_photo" accept="image/jpeg, image/png, image/jpg">
+          <img id="photo" src="{{vehicle.driver_photo.url}}" />
+          <div id="display-image"></div>
+            
+
+          <label for="form-control">Upload License  Photo</label>
+          <input type="file" class="image-input" id="photo" name="license_photo" accept="image/jpeg, image/png, image/jpg">
+          <img id="photo" src="{{vehicle.license_photo.url}}" />
+          <div id="display-image"></div>
+          
+          
+          <button type="submit" class="btn btn-submit"> {%if driver %} Update {% else %} Submit {% endif %}</button>
+          
+        </div>
+      </form>
+
+</body>
+</html>

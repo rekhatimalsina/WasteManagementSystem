@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <!-- Design by foolishdeveloper.com -->
+    <title>Signup Page</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -54,7 +51,7 @@ body{
     bottom: -80px;
 }
 form{
-    height: 700px;
+    height: 600px;
     width: 450px;
     background-color: rgba(255,255,255,0.13);
     position: absolute;
@@ -137,40 +134,23 @@ button{
 
     </style>
 </head>
-
 <body>
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form method="post"action="{% if registration %} {% url 'registration.Update' registration.id %} {% else %} {% url 'registration.store'%} {% endif %}" class="" enctype="multipart/form-data" >
-        {% csrf_token %}
-        <label for="full_name"><b>Full Name</b></label>
-        <input type="text" placeholder="Enter name" name="full_name" id="full_name" required>
+   
+<form action="{% url 'registration.signup' %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username" ><br>
+    <input type="text" name="firstname" placeholder="First Name" ><br>
+    <input type="text" name="lastname" placeholder="Last Name" ><br>
+    <input type="email" name="email" placeholder="Email" ><br>
+    <input type="password" name="password1" placeholder="Password" ><br>
+    <input type="password" name="password2" placeholder="Password confirm" ><br>
+    <input type="submit" value="Sign In"><br>
+    <a href="{% url 'registration.login' %}" >already a account</a>
+</form>
 
-
-
-        <label for="email"><b>email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" id="email" required>
-
-
-
-        <label for="dob"><b>Date of Birth</b></label>
-        <input type="date" placeholder="Date of Birth" name="dob" id="dob" required>
-
-        <label for="password"><b>password</b></label>
-        <input type="password" placeholder="Enter password" name="password" id="password" required>
-
-        <label for="cpassword"><b>confirm password</b></label>
-        <input type="password" placeholder="confirm password" name="cpassword" id="cpassword" required>
-
-        
-        <button type="submit" class="btn btn-submit"> {%if registeration %} Update {% else %} Submit {% endif %}</button>
-        <a href="{% url 'registration.login'%}">Log In</a>
-
-    </form>
-    
-    
 </body>
-
 </html>
