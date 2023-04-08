@@ -1,8 +1,12 @@
 from django.shortcuts import render,HttpResponse,redirect
-
+#from django.views.generic import View, TemplateView,
 # from Registration.models import Registration
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.views.generic import View, TemplateView
+from .models import Customer
+
+from . import service
 
 def firstpage(request):
     return render(request,"registration/index.html")
@@ -33,6 +37,8 @@ def SignUpForm(request):
 
     return render (request,'registration/signup.html')
 
+
+
 def loginForm(request):
     if request.method=='POST':
         username=request.POST.get('username')
@@ -48,43 +54,74 @@ def loginForm(request):
 
 
 
-# # Create your views here.
-# def loginForm(request):
-#     data={
-#         'title':'Member Registration'
-#     }
-#     return render(request,"registration/login.html",data)
-
-# def signForm(request):
-#     data={
-#         'title':'signup'
-#     }
-#     return render(request,"registration/signup.html",data)
-# def registrationStore(request):
-#     if request.method=='POST':
-#         password=request.POST['password']
-#         confirm_password=request.POST['cpassword']
-
-#         if password!= confirm_password:
-#             return HttpResponse("Your password and confrim password doesnot match")
-        
-#         else:
-#             registration=Registration(
-#               email= request.POST['email'],
-#               full_name= request.POST['full_name'],
-#               dob= request.POST['dob'],
-#               password= request.POST['password'],
-#               confirm_password= request.POST['cpassword'],
-#               created_at= request.POST.get('created_at',False),
-#               updated_at= request.POST.get('updated_at',False)
-              
-#               )
-#             registration.save()
-#             return redirect('registration.login')
-#         return render(request,'registration/signup.html')
-
-              
+#driver ko lagi banako template chai mapping garxa
+def customerCreate(request):
+    data={
+        'title':"customer"
+    }
+    return render(request,'registration/addUser.html',data)
 
 
 
-            
+#template bata leko data database gayera save gariraxa
+def customerStore(request):
+   # print(request.POST)
+    store= service.storeCustomer(request)
+    return redirect('customer.list')
+
+
+
+#database ko data template ma show gariraxa
+def customerList(request):
+    #customer=Customer.objects.all()
+    customer=Customer.objects.values().filter(user_id=request.user.id)
+    data={
+        'customer':customer,
+
+    }
+    return render(request,'registration/list.html',data)
+
+
+#edit form redirect garxa.
+def customerEdit(request,id):
+    customer=service.getCustomerId(id)
+    data={
+        'title':'customer',
+        # 'driver':service.getVehicleId(id),
+        'customer':customer
+    }
+    return render(request,'/addDriver.html',data)
+
+#update the data in database template 
+def customerUpdate(request,id):
+    service.updateCustomer(request, id)
+    return redirect('home')
+
+
+#delete a data from a database
+def customerDelete(request,id):
+    service.deleteCustomer(id)
+    return redirect('customer.list')
+
+def LogoutPage(request):
+    logout(request)
+    return redirect('registration.login')
+
+
+def customerProfiles(request, id=None):
+    customer = Customer.objects.get(user=id)
+    context = {
+        'customer': customer
+    }
+    return render(request, 'registration/viewCustomer.html', context)
+def home(request):
+    return render(request,'registration/home.html')
+
+
+
+def one_user(request, id=None):
+    customer = Customer.objects.get(id=1)
+    context = {
+        'customer': customer
+    }
+    return render(request, 'registration/profiles.html', context)

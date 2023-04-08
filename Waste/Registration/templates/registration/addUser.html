@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <form method ='POST'  action="{% if customer %} {% url 'customer.update' customer.id %} {% else %} {% url 'customer.store'%} {% endif %}" class="" enctype="multipart/form-data" style="border:1px solid #ccc">
+      {% csrf_token %} 
+        <div class="container">
+         
+          <p>Please fill in this form to create an account.</p>
+          <hr>
+      
+          <label for="name"><b>Customer Name</b></label>
+          <input type="text" placeholder="customer name" name="name" required>
+            <br>
+            <br>
+            <br>
+          <label for="address"><b>Customer Address</b></label>
+          <input type="text" placeholder="customer_address" name="address" required>
+          <br>
+          <br>
+          <br>
+          <label for="mobile"><b>customer_phone_no</b></label>
+          <input type="text" placeholder="customer_phone_no" name="mobile" required>
+          <br>
+          <br>
+          <br>
+
+          <label for="form-control">Upload  User Photo</label>
+          <input type="file" class="image-input" id="photo" name="photo" accept="image/jpeg, image/png, image/jpg">
+          <img id="photo" src="{{customer.photo.url}}" />
+          <div id="display-image"></div>
+            
+          
+          
+          <button type="submit" class="btn btn-submit"> {%if customer %} Update {% else %} Submit {% endif %}</button>
+          
+        </div>
+      </form>
+
+</body>
+</html>
